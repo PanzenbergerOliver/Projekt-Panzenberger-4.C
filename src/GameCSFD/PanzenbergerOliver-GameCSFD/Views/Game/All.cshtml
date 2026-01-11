@@ -1,0 +1,69 @@
+﻿@using PanzenbergerOliver_GameCSFD.Entities
+@model List<Game>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>GameName</th>
+            <th>Rating</th>
+            <th>PlayerName</th>
+            <th>PlayedTime</th>
+            <th>Comment</th>
+            <th>Id</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (Game game in Model)
+        {
+            <tr>
+                <th>@game.GameName</th>
+                <td>@game.Rating</td>
+                <td>@game.PlayerName</td>
+                <td>@game.PlayedTime</td>
+                <td>@game.Comment</td>
+                <td>
+                    <a asp-controller="Game"
+                       asp-action="Detail"
+                       asp-route-id="@game.Id">
+                        Detail
+                    </a>
+                </td>
+            </tr>
+        <td>
+            <a asp-controller="Game" asp-action="Update" asp-route-id="@game.Id" class="btn btn-primary">Update</a>
+            <form method="post" asp-controller="Users" asp-action="Delete" asp-route-id="@game.Id">
+
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@game.Id">
+                    Delete
+                </button>
+
+                <div class="modal fade" id="deleteModal-@game.Id" tabindex="-1" aria-labelledby="deleteModal-@game.Id" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmation: DELETE</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Do you really want to delete user: @game.GameName ?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </td>
+        }
+
+    </tbody>
+</table>
